@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from 'react-router-dom';
 
 function Signup() {
     const [username, setUsername] = useState('')
@@ -10,7 +11,7 @@ function Signup() {
 
         console.log('username: ', username);
         console.log('password: ', password);
-        
+
         try {
 
             const response = await fetch('http://localhost:3000/users/signup', {
@@ -51,6 +52,8 @@ function Signup() {
             <button type="submit">Sign up</button>
         </form>
         {err && <p className='errorMessage'>{err}</p>}
+        <Link to="/">Go back</Link>
+        <Link to="/login">Log in</Link>
       </>
     )
 }

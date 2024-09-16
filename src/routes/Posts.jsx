@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import Comments from './Comments';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
-
+  
   useEffect(() => {
     fetch('http://localhost:3000/posts')
       .then(res => res.json())
@@ -20,9 +22,12 @@ function Posts() {
             <hr />
             <p>{post.text}</p>
             <p>Created at: {post.addedat}</p>
+            <Comments postid={post.id} />
           </li>
         ))}
       </ul>
+      <Link to="/login">Login</Link>
+      <Link to="/signup">Signup</Link>
     </>
   )
 }
