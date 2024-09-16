@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import { useState } from 'react'
 import { Link } from 'react-router-dom';
 
@@ -8,26 +9,34 @@ function Login() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+      
         try {
-            const response = await fetch('http://localhost:3000/users/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password }),
+          await fetch('http://localhost:3000/users/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, password }),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.token && data.authorid) {
+                localStorage.setItem('token', data.token);
+                localStorage.setItem('authorid', data.authorid);
+                console.log('Logged in successfully -');
+              } else {
+                console.error('Missing token');
+              }
+            })
+            .catch((err) => {
+              console.error('Error during token retrieval:', err);
             });
-
-            if (!response.ok) {
-                throw new Error('Response not ok -', response);
-            }
-            const result = await response.json();
-            console.log('Logged in succesfully - ', result);
         } catch (err) {
-            console.error('Error during login:', err);
-            setErr(err.message);
+          console.error('Error during login:', err);
+          setErr(err.message);
         }
-    }
+      };
+      
 
     return (
       <>

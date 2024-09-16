@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
 import Comments from './Comments';
+import Newpost from './Newpost';
 
 function Posts() {
   const [posts, setPosts] = useState([]);
@@ -26,6 +27,7 @@ function Posts() {
           </li>
         ))}
       </ul>
+      <Link to="/newpost">Post</Link>
       <Link to="/login">Login</Link>
       <Link to="/signup">Signup</Link>
     </>
