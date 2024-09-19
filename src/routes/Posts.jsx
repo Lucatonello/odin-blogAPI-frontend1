@@ -1,7 +1,62 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import Comments from './Comments';
 import '../Sidebar.css';
+import { useNavigate } from 'react-router-dom';
+
+function Posts() {
+  const [posts, setPosts] = useState([]);
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    fetch('http://localhost:3000/posts')
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        setPosts(data);
+      }).catch(err => console.error('error fetching data', err));
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('authorid');
+
+    navigate('/login');
+  };
+
+  return (
+    <div style={styles.container}>
+      <div style={styles.sidebar}>
+        <h2 style={styles.sidebarHeading}>Navigation</h2>
+        <ul style={styles.sidebarList}>
+          <li style={styles.sidebarListItem}><Link to="/" style={styles.sidebarLink} onMouseOver={(e) => e.target.style.backgroundColor = styles.sidebarLinkHover.backgroundColor} onMouseOut={(e) => e.target.style.backgroundColor = ''}>Home</Link></li>
+          <li style={styles.sidebarListItem}><Link to="/login" style={styles.sidebarLink} onMouseOver={(e) => e.target.style.backgroundColor = styles.sidebarLinkHover.backgroundColor} onMouseOut={(e) => e.target.style.backgroundColor = ''}>Login</Link></li>
+          <li style={styles.sidebarListItem}><Link to="/signup" style={styles.sidebarLink} onMouseOver={(e) => e.target.style.backgroundColor = styles.sidebarLinkHover.backgroundColor} onMouseOut={(e) => e.target.style.backgroundColor = ''}>Signup</Link></li>
+          <li style={styles.sidebarListItem}><button style={styles.logoutButton} onMouseOver={(e) => e.target.style.backgroundColor = styles.sidebarLinkHover.backgroundColor} onMouseOut={(e) => e.target.style.backgroundColor = '#ff4757'} onClick={handleLogout}>Logout</button></li>
+        </ul>
+      </div>
+
+      <div style={styles.content}>
+        <ul style={styles.posts}>
+          {posts.map((post) => (
+            post.public ? (
+              <li key={post.id} style={styles.postItem}>
+                <h1 style={styles.postTitle}>{post.title}</h1>
+                <hr />
+                <p style={styles.postText}>{post.text}</p>
+                <p style={styles.postDate}>Created at: {post.addedat}</p>
+                <p style={styles.postDate}>Written by: {post.author}</p>
+                <Link to={`posts/${post.id}`} style={styles.link}>Read more</Link>
+              </li>
+            ) : null 
+          ))}
+        </ul>
+
+        <div style={styles.authLinks}>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const styles = {
   
@@ -12,7 +67,7 @@ const styles = {
     fontFamily: "'Poppins', sans-serif",
   },
   body: {
-    backgroundColor: '#f0f4f8', // Light gray background
+    backgroundColor: '#f0f4f8', 
   },
   container: {
     display: 'flex',
@@ -20,16 +75,23 @@ const styles = {
   },
   sidebar: {
     width: '250px',
-    backgroundColor: '#264653', // Dark blue
-    padding: '20px',
+    backgroundColor: '#264653', 
+    padding: '30px 20px',
     color: '#fff',
-    boxShadow: '3px 0 10px rgba(0, 0, 0, 0.2)',
+    boxShadow: '3px 0 15px rgba(0, 0, 0, 0.2)',
+    position: 'sticky',  
+    top: 0,              
+    height: '100vh',      
+    flexShrink: 0,
+    display: 'flex',
+    flexDirection: 'column',
   },
   sidebarHeading: {
     marginBottom: '20px',
     fontSize: '24px',
     textAlign: 'center',
-    color: '#e9c46a', // Accent gold
+    color: '#e9c46a', 
+    letterSpacing: '1px',
   },
   sidebarList: {
     listStyleType: 'none',
@@ -39,21 +101,32 @@ const styles = {
     marginBottom: '15px',
   },
   sidebarLink: {
+    color: '#f5a462',
     textDecoration: 'none',
-    color: '#f4a261', // Soft orange
+    padding: '12px 15px',
     fontSize: '18px',
     display: 'block',
-    padding: '10px',
-    borderRadius: '5px',
-    transition: 'background-color 0.3s ease',
+    borderRadius: '8px',
+    transition: 'background-color 0.3s, transform 0.3s', 
   },
+  logoutButton: {
+    backgroundColor: '#ff4757', // Bright red color for the button
+    color: '#ffffff', // White text color
+    padding: '10px 20px', // Padding for the button
+    border: 'none', // No border
+    borderRadius: '5px', // Rounded corners
+    fontSize: '16px', // Font size
+    cursor: 'pointer', // Pointer cursor on hover
+    // transition: 'background-color 0.3s ease, transform 0.2s ease', // Smooth transition
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow
+},
   sidebarLinkHover: {
-    backgroundColor: '#2a9d8f', // Teal on hover
+    backgroundColor: '#2a9d8f', 
   },
   content: {
     flex: 1,
     padding: '40px',
-    backgroundColor: '#f0f4f8', // Light gray
+    backgroundColor: '#f0f4f8', 
   },
   posts: {
     display: 'grid',
@@ -63,7 +136,7 @@ const styles = {
     listStyleType: 'none',
   },
   postItem: {
-    backgroundColor: '#ffffff', // White for post background
+    backgroundColor: '#ffffff',
     padding: '20px',
     borderRadius: '10px',
     boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
@@ -75,16 +148,25 @@ const styles = {
   postTitle: {
     fontSize: '24px',
     marginBottom: '10px',
-    color: '#264653', // Dark blue for headings
+    color: '#264653', 
   },
   postText: {
     fontSize: '16px',
-    color: '#6d6875', // Muted purple for text
+    color: '#6d6875', 
+    display: '-webkit-box', 
+    WebkitBoxOrient: 'vertical', 
+    overflow: 'hidden', 
+    textOverflow: 'ellipsis', 
+    WebkitLineClamp: 6, 
+    lineClamp: 6,
+    maxHeight: '9em', 
+    marginTop: '10px', 
+
   },
   postDate: {
     fontStyle: 'italic',
     marginTop: '10px',
-    color: '#8d99ae', // Soft gray for date
+    color: '#8d99ae', 
   },
   authLinks: {
     marginTop: '40px',
@@ -93,66 +175,13 @@ const styles = {
   authLink: {
     textDecoration: 'none',
     fontSize: '18px',
-    color: '#e76f51', // Orange for links
+    color: '#e76f51', 
     margin: '0 10px',
   },
   authLinkHover: {
-    color: '#f4a261', // Soft orange on hover
+    color: '#f4a261', 
     textDecoration: 'underline',
   },
 };
-
-function Posts() {
-  const [posts, setPosts] = useState([]);
-
-  // const [isAuthenticated, setIsAuthenticated] = useState(false);
-  
-  useEffect(() => {
-    fetch('http://localhost:3000/posts')
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
-        setPosts(data);
-      }).catch(err => console.error('error fetching data', err));
-  }, []);
-
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     setIsAuthenticated(true);
-  //   }
-  // }, [])
-  return (
-    <div style={styles.container}>
-      <div style={styles.sidebar}>
-        <h2 style={styles.sidebarHeading}>Navigation</h2>
-        <ul style={styles.sidebarList}>
-          <li style={styles.sidebarListItem}><Link to="/" style={styles.sidebarLink} onMouseOver={(e) => e.target.style.backgroundColor = styles.sidebarLinkHover.backgroundColor} onMouseOut={(e) => e.target.style.backgroundColor = ''}>Home</Link></li>
-          <li style={styles.sidebarListItem}><Link to="/login" style={styles.sidebarLink} onMouseOver={(e) => e.target.style.backgroundColor = styles.sidebarLinkHover.backgroundColor} onMouseOut={(e) => e.target.style.backgroundColor = ''}>Login</Link></li>
-          <li style={styles.sidebarListItem}><Link to="/signup" style={styles.sidebarLink} onMouseOver={(e) => e.target.style.backgroundColor = styles.sidebarLinkHover.backgroundColor} onMouseOut={(e) => e.target.style.backgroundColor = ''}>Signup</Link></li>
-          <li style={styles.sidebarListItem}><Link to="/about" style={styles.sidebarLink} onMouseOver={(e) => e.target.style.backgroundColor = styles.sidebarLinkHover.backgroundColor} onMouseOut={(e) => e.target.style.backgroundColor = ''}>About</Link></li>
-        </ul>
-      </div>
-
-      <div style={styles.content}>
-        <ul style={styles.posts}>
-          {posts.map((post) => (
-            <li key={post.id} style={styles.postItem}>
-              <h1 style={styles.postTitle}>{post.title}</h1>
-              <hr />
-              <p style={styles.postText}>{post.text}</p>
-              <p style={styles.postDate}>Created at: {post.addedat}</p>
-              <Comments postid={post.id} />
-              <Link to={`posts/${post.id}`}>Read more</Link>
-            </li>
-          ))}
-        </ul>
-
-        <div style={styles.authLinks}>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export default Posts

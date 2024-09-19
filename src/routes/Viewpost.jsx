@@ -1,89 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom';
 import Comments from './Comments';
-
-const styles = {
-    container: {
-      display: 'flex',
-      flexDirection: 'row',
-      height: '100vh', // Full viewport height
-    },
-    sidebar: {
-      width: '250px',
-      backgroundColor: '#264653', // Dark blue
-      padding: '20px',
-      color: '#fff',
-      boxShadow: '3px 0 10px rgba(0, 0, 0, 0.2)',
-      height: '100vh', // Full viewport height
-      flexShrink: 0, // Prevent the sidebar from shrinking
-    },
-    sidebarHeading: {
-      marginBottom: '20px',
-      fontSize: '24px',
-      textAlign: 'center',
-      color: '#e9c46a', // Accent gold
-    },
-    sidebarList: {
-      listStyleType: 'none',
-      padding: 0,
-    },
-    sidebarListItem: {
-      marginBottom: '15px',
-    },
-    sidebarLink: {
-      color: '#f5a462',
-      textDecoration: 'none',
-      padding: '10px',
-      fontSize: '18px',
-      display: 'block',
-      borderRadius: '5px',
-      transition: 'background-color 0.3s',
-    },
-    sidebarLinkHover: {
-      backgroundColor: '#2a9d8f', // A lighter blue-green for hover
-    },
-    content: {
-      flex: 1, // Take up remaining space
-      padding: '20px',
-      backgroundColor: '#fff',
-      borderRadius: '10px',
-      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
-    },
-    title: {
-      fontSize: '2rem',
-      marginBottom: '10px',
-      color: '#333',
-    },
-    separator: {
-      margin: '10px 0',
-      border: '1px solid #ddd',
-    },
-    text: {
-      fontSize: '1rem',
-      lineHeight: '1.6',
-      color: '#555',
-    },
-    date: {
-      fontSize: '0.9rem',
-      color: '#888',
-      margin: '10px 0',
-    },
-    link: {
-      display: 'inline-block',
-      marginTop: '20px',
-      color: '#f5a462',
-      textDecoration: 'none',
-      fontSize: '1rem',
-    },
-    linkHover: {
-      color: '#f58742',
-    },
-    
-  };
+import { useNavigate } from 'react-router-dom';
 
 function Viewpost() {
     const [data, setData] = useState([]);
     const { id } = useParams();
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch(`http://localhost:3000/posts/${id}`)
@@ -95,8 +18,15 @@ function Viewpost() {
           .catch(err => console.error('error fetching data', err));
     }, [id]);
 
+    const handleLogout = () => {
+      localStorage.removeItem('token');
+      localStorage.removeItem('authorid');
+  
+      navigate('/login');
+    };
+
     return (
-        <div style={styles.container}>
+      <div style={styles.container}>
         <div style={styles.sidebar}>
           <h2 style={styles.sidebarHeading}>Navigation</h2>
           <ul style={styles.sidebarList}>
@@ -129,17 +59,10 @@ function Viewpost() {
               >
                 Signup
               </Link>
+              <li style={styles.sidebarListItem}><button style={styles.logoutButton} onMouseOver={(e) => e.target.style.backgroundColor = styles.sidebarLinkHover.backgroundColor} onMouseOut={(e) => e.target.style.backgroundColor = '#ff4757'} onClick={handleLogout}>Logout</button></li>
+
             </li>
-            <li style={styles.sidebarListItem}>
-              <Link 
-                to="/about" 
-                style={styles.sidebarLink}
-                onMouseOver={(e) => e.target.style.backgroundColor = styles.sidebarLinkHover.backgroundColor}
-                onMouseOut={(e) => e.target.style.backgroundColor = ''}
-              >
-                About
-              </Link>
-            </li>
+       
           </ul>
         </div>
         <div style={styles.content}>
@@ -147,6 +70,7 @@ function Viewpost() {
           <hr style={styles.separator} />
           <p style={styles.text}>{data.text}</p>
           <p style={styles.date}>Created at: {data.addedat}</p>
+          <p style={styles.date}>Wrote by: {data.author}</p>
           <hr />
           <Comments postid={data.id} />
           <Link 
@@ -162,4 +86,107 @@ function Viewpost() {
     );
 }
 
+const styles = {
+  container: {
+    display: 'flex',
+    flexDirection: 'row',
+    minHeight: '100vh', // Use min-height to ensure full viewport height but allow scrolling
+    backgroundColor: '#f4f4f9', // Light background for better contrast
+  },
+  sidebar: {
+    width: '250px',
+    backgroundColor: '#264653', // Dark blue
+    padding: '30px 20px',
+    color: '#fff',
+    boxShadow: '3px 0 15px rgba(0, 0, 0, 0.2)',
+    position: 'sticky',  // Make sidebar sticky
+    top: 0,              // Ensure it sticks to the top when scrolling
+    height: '100vh',      // Set height to 100vh to make it full-height
+    flexShrink: 0,
+    display: 'flex',
+    flexDirection: 'column',
+  },
+  logoutButton: {
+    backgroundColor: '#ff4757', // Bright red color for the button
+    color: '#ffffff', // White text color
+    padding: '10px 20px', // Padding for the button
+    border: 'none', // No border
+    borderRadius: '5px', // Rounded corners
+    fontSize: '16px', // Font size
+    cursor: 'pointer', // Pointer cursor on hover
+    transition: 'background-color 0.3s ease, transform 0.2s ease', // Smooth transition
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow
+    marginTop: '15px',
+},
+  sidebarHeading: {
+    marginBottom: '20px',
+    fontSize: '24px',
+    textAlign: 'center',
+    color: '#e9c46a', // Accent gold
+    letterSpacing: '1px',
+  },
+  sidebarList: {
+    listStyleType: 'none',
+    padding: 0,
+  },
+  sidebarListItem: {
+    marginBottom: '15px',
+  },
+  sidebarLink: {
+    color: '#f5a462',
+    textDecoration: 'none',
+    padding: '12px 15px',
+    fontSize: '18px',
+    display: 'block',
+    borderRadius: '8px',
+    transition: 'background-color 0.3s, transform 0.3s', // Added transform for a subtle lift effect
+  },
+  sidebarLinkHover: {
+    backgroundColor: '#2a9d8f', // A lighter blue-green for hover
+  },
+  content: {
+    flex: 1, // Take up remaining space
+    padding: '40px',
+    backgroundColor: '#fff',
+    borderRadius: '10px',
+    boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+    margin: '20px',
+  },
+  title: {
+    fontSize: '2.2rem',
+    marginBottom: '15px',
+    color: '#333',
+    fontWeight: '600',
+  },
+  separator: {
+    margin: '15px 0',
+    border: '1px solid #ddd',
+  },
+  text: {
+    fontSize: '1.1rem',
+    lineHeight: '1.8',
+    color: '#555',
+    marginBottom: '20px',
+  },
+  date: {
+    fontSize: '0.9rem',
+    color: '#888',
+    margin: '10px 0',
+  },
+  link: {
+    display: 'inline-block',
+    marginTop: '30px',
+    color: '#f5a462',
+    textDecoration: 'none',
+    fontSize: '1.1rem',
+    padding: '8px 12px',
+    border: '2px solid #f5a462',
+    borderRadius: '5px',
+    transition: 'color 0.3s, background-color 0.3s', // Smooth transition on hover
+  },
+  linkHover: {
+    color: '#fff',
+    backgroundColor: '#f58742', // Background color for hover
+  },
+};
 export default Viewpost;

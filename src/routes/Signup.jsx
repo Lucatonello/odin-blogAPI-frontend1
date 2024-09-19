@@ -109,7 +109,7 @@ function Signup() {
             }
             const result = await response.json();
             console.log('signed up ', result);
-            navigate('/');
+            navigate('/login');
         } catch (err) {
             console.error('Error during signup', err);
             setErr(err.message);
