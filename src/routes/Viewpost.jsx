@@ -90,39 +90,39 @@ const styles = {
   container: {
     display: 'flex',
     flexDirection: 'row',
-    minHeight: '100vh', // Use min-height to ensure full viewport height but allow scrolling
-    backgroundColor: '#f4f4f9', // Light background for better contrast
+    minHeight: '100vh', 
+    backgroundColor: '#f4f4f9', 
   },
   sidebar: {
     width: '250px',
-    backgroundColor: '#264653', // Dark blue
+    backgroundColor: '#264653', 
     padding: '30px 20px',
     color: '#fff',
     boxShadow: '3px 0 15px rgba(0, 0, 0, 0.2)',
-    position: 'sticky',  // Make sidebar sticky
-    top: 0,              // Ensure it sticks to the top when scrolling
-    height: '100vh',      // Set height to 100vh to make it full-height
+    position: 'sticky',  
+    top: 0,              
+    height: '100vh',      
     flexShrink: 0,
     display: 'flex',
     flexDirection: 'column',
   },
   logoutButton: {
-    backgroundColor: '#ff4757', // Bright red color for the button
-    color: '#ffffff', // White text color
-    padding: '10px 20px', // Padding for the button
-    border: 'none', // No border
-    borderRadius: '5px', // Rounded corners
-    fontSize: '16px', // Font size
-    cursor: 'pointer', // Pointer cursor on hover
-    transition: 'background-color 0.3s ease, transform 0.2s ease', // Smooth transition
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow
+    backgroundColor: '#ff4757', 
+    color: '#ffffff', 
+    padding: '10px 20px',
+    border: 'none', 
+    borderRadius: '5px',
+    fontSize: '16px',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease, transform 0.2s ease', 
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', 
     marginTop: '15px',
 },
   sidebarHeading: {
     marginBottom: '20px',
     fontSize: '24px',
     textAlign: 'center',
-    color: '#e9c46a', // Accent gold
+    color: '#e9c46a',
     letterSpacing: '1px',
   },
   sidebarList: {
@@ -139,13 +139,13 @@ const styles = {
     fontSize: '18px',
     display: 'block',
     borderRadius: '8px',
-    transition: 'background-color 0.3s, transform 0.3s', // Added transform for a subtle lift effect
+    transition: 'background-color 0.3s, transform 0.3s', 
   },
   sidebarLinkHover: {
-    backgroundColor: '#2a9d8f', // A lighter blue-green for hover
+    backgroundColor: '#2a9d8f', 
   },
   content: {
-    flex: 1, // Take up remaining space
+    flex: 1, 
     padding: '40px',
     backgroundColor: '#fff',
     borderRadius: '10px',
@@ -182,11 +182,12 @@ const styles = {
     padding: '8px 12px',
     border: '2px solid #f5a462',
     borderRadius: '5px',
-    transition: 'color 0.3s, background-color 0.3s', // Smooth transition on hover
+    transition: 'color 0.3s, background-color 0.3s', 
   },
   linkHover: {
     color: '#fff',
-    backgroundColor: '#f58742', // Background color for hover
+    backgroundColor: '#f58742', 
   },
 };
+
 export default Viewpost;

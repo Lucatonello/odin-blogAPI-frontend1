@@ -110,15 +110,14 @@ const styles = {
     transition: 'background-color 0.3s, transform 0.3s', 
   },
   logoutButton: {
-    backgroundColor: '#ff4757', // Bright red color for the button
-    color: '#ffffff', // White text color
-    padding: '10px 20px', // Padding for the button
-    border: 'none', // No border
-    borderRadius: '5px', // Rounded corners
-    fontSize: '16px', // Font size
-    cursor: 'pointer', // Pointer cursor on hover
-    // transition: 'background-color 0.3s ease, transform 0.2s ease', // Smooth transition
-    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', // Subtle shadow
+    backgroundColor: '#ff4757', 
+    color: '#ffffff', 
+    padding: '10px 20px', 
+    border: 'none', 
+    borderRadius: '5px', 
+    fontSize: '16px', 
+    cursor: 'pointer',
+    boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)', 
 },
   sidebarLinkHover: {
     backgroundColor: '#2a9d8f', 

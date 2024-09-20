@@ -72,7 +72,6 @@ function Comments({ postid }) {
       </>
   );
   
-  
 }
 
 const styles = {
@@ -85,14 +84,14 @@ const styles = {
   commentForm: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'flex-end',  // Align button to the right
+    alignItems: 'flex-end', 
     marginBottom: '20px',
   },
   label: {
     marginBottom: '10px',
     fontSize: '18px',
     color: '#6d6875',
-    alignSelf: 'flex-start', // Ensure the label stays on the left
+    alignSelf: 'flex-start', 
   },
   textarea: {
     padding: '10px',
@@ -101,21 +100,21 @@ const styles = {
     border: '1px solid #e0e0e0',
     marginBottom: '10px',
     outline: 'none',
-    width: '100%', // Make textarea fill the form width
-    resize: 'vertical', // Allow vertical resizing only
-    minHeight: '80px', // Minimum height for the textarea
+    width: '100%', 
+    resize: 'vertical', 
+    minHeight: '80px', 
   },
   button: {
     backgroundColor: '#2a9d8f',
     color: '#fff',
-    padding: '8px 12px', // Small padding for button
-    fontSize: '14px', // Smaller font size for button
+    padding: '8px 12px', 
+    fontSize: '14px',
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
     transition: 'background-color 0.3s ease',
     outline: 'none',
-    alignSelf: 'flex-end', // Align the button to the right
+    alignSelf: 'flex-end', 
   },
   hr: {
     margin: '20px 0',
